@@ -12,6 +12,9 @@ $wf = new Workflow;
 $response = request('https://s.search.bilibili.com/main/suggest?term='.urlencode($query));
 $json = json_decode($response, true);
 
+// 添加默认查询
+array_unshift($json, array('name' => $query));
+
 foreach ($json as $key => $value) {
     $data = $value['name'];
     $wf->result()

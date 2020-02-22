@@ -13,6 +13,9 @@ $response = request('http://suggestion.baidu.com/su?&wd='.urlencode($query));
 preg_match('/s:(\[.*\])\}\);/', stripslashes(iconv('GB2312', 'UTF-8', $response)), $match);
 $json = json_decode($match[1]);
 
+// 添加默认查询
+array_unshift($json, $query);
+
 foreach ($json as $data) {
     $wf->result()
         ->title($data)

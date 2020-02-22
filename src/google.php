@@ -12,8 +12,15 @@ $wf = new Workflow;
 $xml = request('http://google.com/complete/search?output=toolbar&q='.urlencode($query), $opt);
 $xml = simplexml_load_string(utf8_encode($xml));
 
+// 添加默认查询
+$json = array();
 foreach ($xml as $sugg) {
     $data = (string) $sugg->suggestion->attributes()->data;
+    array_push($json, $data);
+}
+array_unshift($json, $query);
+
+foreach ($json as $data) {
     $wf->result()
         ->title($data)
         ->subtitle('Search Google for '.$data)
